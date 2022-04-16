@@ -1,0 +1,36 @@
+@use '../../utils/styleUtils.scss' as *;
+
+.welcome-text {
+    padding: 120px 40px 80px;
+    color: $gray-100;
+    font-size: 1.5rem;
+    
+    .greetings {
+        font-weight: 200;
+        font-size: 5rem;
+    }
+    
+    div:first-child {
+        margin-bottom: 20px;
+    }
+
+    div:nth-child(2) {
+        font-weight: 300;
+        color: $blue-200;
+        margin-bottom: 20px;
+    }
+
+    div:nth-child(3) {
+
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: $gray-100;
+    }
+
+    @media screen and (max-width: 320px) {
+    padding: 80px 20px;
+    }
+}
+
+
+

@@ -7,6 +7,7 @@ import useScrollSpy from 'react-use-scrollspy';
 import Main from "./components/Main"
 
 const menuItems = [
+  'Hello',
   'About',
   'Work',
   'Contact'

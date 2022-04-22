@@ -1,6 +1,10 @@
 @use '../../utils/styleUtils.scss'as *;
 @use 'sass:color';
 
+.section.welcome-section {
+    padding-left: 0;
+}
+
 .welcome-text {
     padding: 120px 40px 80px;
     color: $gray-100;
@@ -50,6 +54,7 @@
 }
 
 .welcome-section {
+    position: relative;
     display: flex;
     justify-content: space-between;
     flex-direction: column;

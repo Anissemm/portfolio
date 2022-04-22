@@ -1,13 +1,28 @@
 @use 'utils/styleUtils.scss' as *;
+@use 'sass:color';
 
 body {
-    background-color: $blue-600;
+    background-color: $blue-700
+    // background-color: $blue-600;
 }
 
 .section {
-    padding-right: 100px;
     color: $gray-100;
     min-height: 100vh;
     font-size: 36px;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 110px;
+}
+
+.section-heading {
+    font-weight: 600;
+
+    .numeration {
+        font-weight: 300;
+        color: $blue-400;
+    }
 }
 

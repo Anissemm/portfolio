@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, items }) => {
                                     href={`#${menuItem}`}
                                     className={`nav-link ${isActive ? 'active' : ''}`}>
                                     <div>
-                                        <div className='numeration'>{`0${index + 1} - `}</div>
+                                        <div className='numeration'>{`0${index} - `}</div>
                                         <div>{menuItem}</div>
                                     </div>
                                     {isActive && <Line />}

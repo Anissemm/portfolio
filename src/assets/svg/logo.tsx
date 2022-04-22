@@ -1,32 +1,32 @@
 import React from "react"
-import { motion } from 'framer-motion'
-import { colord } from "colord";
+import { motion, Variants } from 'framer-motion'
 
-const drawVariants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: (i: number) => {
-    const delay = i * 0.5 + 0.5;
+const drawVariants: Variants = {
+  hidden: (i: number) => {
     return {
-      pathLength: 1,
-      opacity: 1,
-      transition: {
-        pathLength: {
-          delay,
-          duration: 0.3,
-        },
-        opacity: {
-          delay,
-          duration: 0.3,
-        }
+      opacity: 0,
+      y: i * 100
+    }
+  },
+  visible: {
+    y: 0, 
+    opacity: 1, 
+    transition: {
+      duration: 1.5,
+      opacity: {
+        delay: 0.5,
+        duration: 1
       }
     }
-  }
+  },
 }
+
+
 
 const Logo: React.FC = () => {
 
   return (
-    <motion.svg style={{fill: '#0466C8'}} initial="hidden" animate="visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.89 54.19" fill="none">
+    <motion.svg style={{ fill: '#0466C8' }} initial="hidden" animate="visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.89 54.19" fill="none">
       <motion.g variants={drawVariants} custom={1}>
         <polygon
           points="0 54.19 2.3 54.19 16.34 13.38 0 54.19" />
@@ -44,7 +44,7 @@ const Logo: React.FC = () => {
           id="right-part"
           d="M33.22,54.19h9.91L25,9,9.51,54.19h1l5.2-15h11.9ZM16,38.22l5.4-15.63,5.83,15.63Z" />
       </motion.g>
-      <motion.g variants={drawVariants} custom={2}>
+      <motion.g variants={drawVariants} custom={-1}>
         <path id="left-part" d="M46.27,54.19,50.47,42,37.8,9.27a93.54,93.54,0,0,1,16.49.34,19.74,19.74,0,0,1,6.65,1.93L64,2.65C58.43.27,52.26,0,48.15,0c-6,0-24.09.4-24.09.4L45.55,54.19Z" />
 
         <polygon points="48.27 54.19 51.53 44.7 51.11 43.62 47.48 54.19 48.27 54.19" />

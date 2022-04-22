@@ -87,7 +87,7 @@ const About = forwardRef<HTMLDivElement, AboutProps>(({ id }, ref) => {
                 <motion.div className='picture'>
                     <div className='picture-wrapper'>
                         <picture>
-                            <img src={ProfilePicture} />
+                            {/* <img src={ProfilePicture} /> */}
                         </picture>
                     </div>
                 </motion.div>

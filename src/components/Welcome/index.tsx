@@ -1,4 +1,4 @@
-import { forwardRef } from "react"
+import React, { forwardRef } from "react"
 import { motion } from 'framer-motion'
 import './Welcome.scss'
 import { ReactComponent as LinkedinIcon } from '../../assets/svg/linkedin.svg'
@@ -36,16 +36,15 @@ const variants = {
 const WelcomeHeader = forwardRef<HTMLDivElement, WelcomeHeaderProps>(({ id }, ref) => {
     return (
         <section id={id} ref={ref} className="section welcome-section" >
-            <h2 className="sr-only">Welcome</h2>
-            <motion.p
+            <motion.div
                 initial="hidden"
                 animate="visible"
                 className="welcome-text">
-                <motion.div
+                <motion.h2
                     className="greetings"
                     custom={1}
                     variants={variants}>
-                    Hello!</motion.div>
+                    Hello!</motion.h2>
                 <motion.div
                     custom={2}
                     variants={variants}>
@@ -71,7 +70,7 @@ const WelcomeHeader = forwardRef<HTMLDivElement, WelcomeHeaderProps>(({ id }, re
                 >
                     My Resume
                 </motion.a>
-            </motion.p>
+            </motion.div>
             <motion.p
                 initial="hidden"
                 animate="visible"

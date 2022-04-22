@@ -1,0 +1,15 @@
+@use '../../utils/styleUtils.scss' as *;
+
+.project-thumbnail {
+    position: relative;
+    margin-right: 110px;
+    border-radius: 5px;
+    width: 200px;
+    height: 150px; 
+    box-shadow: 0 0 3px black;
+
+    img {
+        width: 100%;
+        @include object-fit($fit: cover);
+    }
+}

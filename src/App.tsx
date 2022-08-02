@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
-import { useAppSelector } from "./store"
-import { getAppMeta } from "./store/reducers/appMeta"
 import './App.scss'
-import useScrollSpy from 'react-use-scrollspy';
 import Main from "./components/Main"
+import { AnimatePresence } from "framer-motion"
+import FirstLoadOverlay from "./components/FirstLoadOverlay"
+import { useAppSelector } from "./store"
+import { getCurrentSection } from "./store/reducers/navigationSlice"
 
 const menuItems = [
   'Hello',
@@ -15,29 +16,26 @@ const menuItems = [
 
 const App = () => {
 
-  const sectionRefs = [
-    useRef<HTMLDivElement | null>(null),
-    useRef<HTMLDivElement | null>(null),
-    useRef<HTMLDivElement | null>(null),
-    useRef<HTMLDivElement | null>(null),
-    useRef<HTMLDivElement | null>(null)
-
-  ];
-
-  const activeSection = useScrollSpy({
-    sectionElementRefs: sectionRefs,
-    offsetPx: -100,
-  });
-  const appMeta = useAppSelector(getAppMeta)
+  const [isLoading, setIsLoading] = useState(true)
+  const currentSection = useAppSelector(getCurrentSection)
 
   useEffect(() => {
-    console.log(appMeta)
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
+
+    return () => clearTimeout(timeoutId)
   }, [])
 
   return (
     <>
-      <Navbar activeSection={activeSection} items={menuItems} />
-      <Main menuItems={menuItems} sectionRefs={sectionRefs} />
+      <AnimatePresence>
+        {isLoading ? <FirstLoadOverlay key='first-load' /> :
+          <>
+            <Navbar key='navbar' isLoading={isLoading} items={menuItems} />
+            <Main key='main' menuItems={menuItems} />
+          </>}
+      </AnimatePresence>
     </>
   )
 }

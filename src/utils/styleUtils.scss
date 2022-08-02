@@ -1,4 +1,3 @@
-
 $blue-700: #001233;
 $blue-600: #001845;
 $blue-500: #002855;
@@ -9,15 +8,20 @@ $gray-400: #33415C;
 $gray-300: #5C677D;
 $gray-200: #7D8597;
 $gray-100: #979DAC;
+$gray-50: #c6cad3;
 
-@mixin object-fit($fit: fill, $position: null){
+
+@mixin object-fit($fit: fill, $position: null) {
     -o-object-fit: $fit;
-       object-fit: $fit;
+    object-fit: $fit;
+
     @if $position {
         -o-object-position: $position;
-           object-position: $position;
+        object-position: $position;
         font-family: 'object-fit: #{$fit}; object-position: #{$position}';
-    } @else {
+    }
+
+    @else {
         font-family: 'object-fit: #{$fit}';
     }
-  }
+}

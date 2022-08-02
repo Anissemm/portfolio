@@ -1,7 +1,12 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, MutableRefObject, useEffect, useRef } from 'react'
 import ProfilePicture from '../../assets/profil.png'
 import { motion } from 'framer-motion'
 import './About.scss'
+import { useInView } from 'react-intersection-observer'
+import { useAppDispatch } from '../../store'
+import { setCurrentSection } from '../../store/reducers/navigationSlice'
+import slugify from 'slugify'
+import useCurrentSection from '../../hooks/useCurrentSection'
 
 interface AboutProps {
     id: string
@@ -23,10 +28,13 @@ const headerVariants = {
 
 }
 
-const About = forwardRef<HTMLDivElement, AboutProps>(({ id }, ref) => {
+const About: React.FC<AboutProps> = ({ id }) => {
+    const setSectionRef = useCurrentSection('About')
+    const slugifiedId = slugify(id, {lower: true, replacement: '-'})
+    
     return (
-        <section id={id} ref={ref} className="section about-section">
-            <motion.h2
+        <section id={slugifiedId} ref={setSectionRef} className="section about-section">
+            <h2
                 className='section-heading'>
                 <motion.div
                     initial={{ opacity: 0, x: -100 }}
@@ -40,9 +48,9 @@ const About = forwardRef<HTMLDivElement, AboutProps>(({ id }, ref) => {
                     initial={{ opacity: 0, x: 100 }}
                     whileInView={{ opacity: 1, x: 0, }}
                     transition={{ duration: 0.5, delay: 0.5 }}> About Me</motion.div>
-            </motion.h2>
+            </h2>
 
-            <motion.div className='About-body'>
+            <div className='about-body'>
                 <motion.p
                     viewport={{ once: true, margin: '-20px' }}
                     initial={{ opacity: 0, y: 100 }}
@@ -69,31 +77,29 @@ const About = forwardRef<HTMLDivElement, AboutProps>(({ id }, ref) => {
                 >
                     I also recently launched a course that covers everything you need to build a web app with the Spotify API using Node &amp; React.
                 </motion.p>
-                <motion.p
+                <motion.ul
                     viewport={{ once: true, margin: '-20px' }}
                     initial={{ opacity: 0, y: 100 }}
                     whileInView={{ opacity: 1, y: 0, }}
                     transition={{ duration: 0.5, delay: 0.9 }}
-                >
+                    className='tech-stack'>
                     Here are a few technologies I’ve been working with recently:
-                    <motion.ul className='tech-stack'>
-                        <motion.li>JavaScript (ES6+)</motion.li>
-                        <motion.li>TypeScript</motion.li>
-                        <motion.li>React</motion.li>
-                        <motion.li>Node.js</motion.li>
-                        <motion.li>Wordpress</motion.li>
-                    </motion.ul>
-                </motion.p>
-                <motion.div className='picture'>
+                    <motion.li>JavaScript (ES6+)</motion.li>
+                    <motion.li>TypeScript</motion.li>
+                    <motion.li>React</motion.li>
+                    <motion.li>Node.js</motion.li>
+                    <motion.li>Wordpress</motion.li>
+                </motion.ul>
+                <div className='picture'>
                     <div className='picture-wrapper'>
                         <picture>
                             {/* <img src={ProfilePicture} /> */}
                         </picture>
                     </div>
-                </motion.div>
-            </motion.div>
+                </div>
+            </div>
         </section>
     )
-})
+}
 
 export default About

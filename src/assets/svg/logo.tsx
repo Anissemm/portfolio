@@ -1,5 +1,6 @@
-import React from "react"
-import { motion, Variants } from 'framer-motion'
+import React, { forwardRef, HTMLAttributes, PropsWithChildren, RefAttributes } from "react"
+import { motion, SVGMotionProps, Variants } from 'framer-motion'
+import { SVGMotionComponents } from "framer-motion/types/render/svg/types"
 
 const drawVariants: Variants = {
   hidden: (i: number) => {
@@ -9,8 +10,8 @@ const drawVariants: Variants = {
     }
   },
   visible: {
-    y: 0, 
-    opacity: 1, 
+    y: 0,
+    opacity: 1,
     transition: {
       duration: 1.5,
       opacity: {
@@ -23,10 +24,12 @@ const drawVariants: Variants = {
 
 
 
-const Logo: React.FC = () => {
+const Logo = forwardRef<SVGSVGElement, PropsWithChildren<SVGMotionProps<SVGSVGElement>>>((props, ref) => {
 
   return (
-    <motion.svg style={{ fill: '#0466C8' }} initial="hidden" animate="visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.89 54.19" fill="none">
+    <motion.svg ref={ref} initial="hidden" animate="visible" xmlns="http://www.w3.org/2000/svg" fill='#0466C8' viewBox="0 0 78.89 54.19" {...props}>
+      {props.children}
+
       <motion.g variants={drawVariants} custom={1}>
         <polygon
           points="0 54.19 2.3 54.19 16.34 13.38 0 54.19" />
@@ -60,6 +63,6 @@ const Logo: React.FC = () => {
       </motion.g>
     </motion.svg>
   )
-}
+})
 
-export default Logo
+export default motion(Logo)

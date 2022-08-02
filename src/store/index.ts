@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 import app from './reducers/appMeta'
+import navigationSlice from "./reducers/navigationSlice"
 
 const store = configureStore({
     reducer: {
-        app
+        app,
+        navigation: navigationSlice
     }
 })
 

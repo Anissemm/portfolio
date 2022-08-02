@@ -1,11 +1,15 @@
 import Logo from '../../assets/svg/logo'
-import { motion, AnimateSharedLayout } from 'framer-motion';
+import { motion, AnimateSharedLayout } from 'framer-motion'
 import './Navbar.scss'
+import { useEffect, useState } from 'react'
+import { useAppSelector } from '../../store'
+import { getCurrentSection } from '../../store/reducers/navigationSlice'
+import slugify from 'slugify'
 
 interface NavbarProps {
-    children?: React.ReactChildren;
-    activeSection: number,
+    children?: React.ReactChildren
     items: string[]
+    isLoading: boolean
 
 }
 
@@ -27,17 +31,28 @@ const menuItemsVariants = {
     }
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeSection, items }) => {
+const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
+    const currentSection = useAppSelector(getCurrentSection)
+    const [logoLayoutId, setLogoLayoutId] = useState<'logo' | undefined>('logo')
+
+    useEffect(() => {
+        if (!isLoading) {
+            setTimeout(() => {
+                setLogoLayoutId(undefined)
+            }, 500)
+        }
+    }, [isLoading])
 
     return (
         <nav className="main-nav">
             <ul className="nav-list">
                 <li className="nav-item">
-                    <Logo />
+                    <Logo layoutId={logoLayoutId} />
                 </li>
                 <AnimateSharedLayout>
                     {items.map((menuItem, index) => {
-                        const isActive = activeSection === index;
+                        const slugifiedItem = slugify(menuItem, { lower: true, replacement: '-' })
+                        const isActive = currentSection === slugifiedItem
 
                         return (
                             <motion.li
@@ -48,13 +63,13 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, items }) => {
                                 className="nav-item">
 
                                 <motion.a
+                                    data-is-nav-link
+                                    data-ref-section={menuItem}
                                     animate={{ opacity: isActive ? 1 : 0.7 }}
-                                    href={`#${menuItem}`}
+                                    href={`#${slugifiedItem}`}
                                     className={`nav-link ${isActive ? 'active' : ''}`}>
-                                    <div>
-                                        <div className='numeration'>{`0${index} - `}</div>
-                                        <div>{menuItem}</div>
-                                    </div>
+                                    <div className='numeration'>{`0${index} - `}</div>
+                                    <div>{menuItem}</div>
                                     {isActive && <Line />}
 
                                 </motion.a>

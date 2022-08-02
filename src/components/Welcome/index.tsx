@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import './Welcome.scss'
 import { ReactComponent as LinkedinIcon } from '../../assets/svg/linkedin.svg'
 import { ReactComponent as GithubIcon } from '../../assets/svg/github.svg'
+import useCurrentSection from "../../hooks/useCurrentSection"
+import slugify from "slugify"
 
 interface WelcomeHeaderProps {
     id: string,
@@ -33,9 +35,13 @@ const variants = {
     }
 }
 
-const WelcomeHeader = forwardRef<HTMLDivElement, WelcomeHeaderProps>(({ id }, ref) => {
+const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ id }) => {
+    const setSectionRef = useCurrentSection('Hello')
+    const slugifiedId = slugify(id, {lower: true, replacement: '-'})
+
+
     return (
-        <section id={id} ref={ref} className="section welcome-section" >
+        <section id={slugifiedId} ref={setSectionRef} className="section welcome-section" >
             <motion.div
                 initial="hidden"
                 animate="visible"
@@ -93,6 +99,6 @@ const WelcomeHeader = forwardRef<HTMLDivElement, WelcomeHeaderProps>(({ id }, re
             </motion.p>
         </section>
     )
-})
+}
 
 export default WelcomeHeader

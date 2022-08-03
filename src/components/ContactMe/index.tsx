@@ -1,12 +1,12 @@
 import slugify from "slugify"
 import useCurrentSection from "../../hooks/useCurrentSection"
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { useFormik } from "formik"
 import * as yup from 'yup'
 import ReCAPTCHA from 'react-google-recaptcha'
 import Input from "../Input"
 import './ContactMe.scss'
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const variants = {
     hidden: {
@@ -71,7 +71,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
         onSubmit: async (values) => {
             setLoading(true)
             const params = new URLSearchParams(values)
-            
+
             try {
                 const captcha = await recaptchaRef.current?.executeAsync()
 
@@ -92,11 +92,9 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                     throw new Error('Something went wrong. Please, retry later.')
                 }
 
-                console.log(data)
-
                 setResult({
                     success: true,
-                    result: data?.info
+                    result: 'Messaege was sent.'
                 })
 
             } catch (error: any) {
@@ -110,6 +108,11 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
         }
     })
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setResult(null)
+        }, 3000)
+    }, [result])
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section contact-me-section" >
@@ -131,7 +134,19 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
             <motion.div className='contact-body'>
                 <div className={`contact-body-background ${loading ? 'contact-body-background--loading' : ''}`} />
                 <div className={`form-loader ${loading ? 'form-loader--shown' : ''}`} />
-                {result && result?.success ? <div>Email was sent.</div> : result && !result?.success ? <div>{result?.error}</div> : null}
+                <AnimatePresence>
+                    {result &&
+                        <div className='result-message-wrapper'>
+                            <motion.div
+                                className={`result-message`}
+                                variants={variants}
+                                initial='hidden'
+                                animate='visible'
+                                exit='hidden'>
+                                <span>{result?.success ? result?.result : result?.error}</span>
+                            </motion.div>
+                        </div>}
+                </AnimatePresence>
                 <form onSubmit={contactForm.handleSubmit}>
                     <div>
                         <div className='input-wrapper'>

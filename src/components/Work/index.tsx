@@ -34,12 +34,12 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     transition={{ duration: 0.5, delay: 0.5 }}> Some things I did</motion.div>
             </motion.h2>
             <div className="projects">
-                <Project 
+                <Project
                     title='Blog website - Ksorstn.org'
                     techStack={['HTML', 'CSS', 'Javascript', 'PHP', 'Wordpress']}
                     image={KsorstnImg}
                     content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia dolorum alias magni blanditiis mollitia quidem doloremque soluta, numquam laboriosam ratione, iure sunt quibusdam debitis ea, asperiores assumenda esse adipisci illo?' />
-                <Project 
+                <Project
                     title='Google Doc Clone'
                     image={GoogleDocClone}
                     techStack={['NextJS', 'Firestore', 'QuillJs', 'TailwindCss']}
@@ -57,15 +57,13 @@ interface ProjectCardProps {
 }
 
 const Project: React.FC<ProjectCardProps> = ({ title = '', content = '', techStack, image = '' }) => {
-    const [descriptionHeight, setDescriptionHeight] = useState<undefined | number | null>()
-    const [showDescription, setShowDescription] = useState(false)
-    const [firstClick, setFirstClick] = useState(true)
-    const [setDescriptionRef, descriptionEntry] = useResizeObserver()
+    const [imageHeight, setImageHeight] = useState<undefined | number | null>()
+    const [setImageRef, imageEntry] = useResizeObserver()
 
 
     useEffect(() => {
-        setDescriptionHeight(descriptionEntry?.target.scrollHeight)
-    }, [descriptionEntry])
+        setImageHeight(imageEntry?.target.scrollHeight)
+    }, [imageEntry])
 
     return (
         <article
@@ -99,9 +97,12 @@ const Project: React.FC<ProjectCardProps> = ({ title = '', content = '', techSta
                 // }}
                 href='https://ksorstn.org' target='_blank' rel='noreferrer nofollow noopener'>
                 <div>
-                    <div className='project-background' />
+                    <div
+                        style={{ height: imageHeight ? imageHeight : undefined }}
+                        className='project-background'
+                    />
                     <div className="project-wrapper">
-                        <div className="project-thumbnail">
+                        <div className="project-thumbnail" ref={setImageRef}>
                             <div className='thumbnail-blend' />
                             <img src={image} alt='Ksorstn.org Wordpress Blog image' />
                         </div>
@@ -115,7 +116,7 @@ const Project: React.FC<ProjectCardProps> = ({ title = '', content = '', techSta
                                 //     transition: showDescription ? 'all 60ms ease-in' : 'all 300ms ease-out'
                                 // }}
                                 className='project-description'>
-                            {content}
+                                {content}
                             </p>
                             <ul className='project-tech-stack'>
                                 {techStack.map(item => <li key={item}>{item}</li>)}

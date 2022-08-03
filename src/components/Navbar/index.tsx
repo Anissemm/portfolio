@@ -2,8 +2,8 @@ import Logo from '../../assets/svg/logo'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import './Navbar.scss'
 import { useEffect, useState } from 'react'
-import { useAppSelector } from '../../store'
-import { getCurrentSection } from '../../store/reducers/navigationSlice'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { getCurrentSection, setCurrentSection, setStopIntersectionObserver } from '../../store/reducers/navigationSlice'
 import slugify from 'slugify'
 
 interface NavbarProps {
@@ -34,6 +34,7 @@ const menuItemsVariants = {
 const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
     const currentSection = useAppSelector(getCurrentSection)
     const [logoLayoutId, setLogoLayoutId] = useState<'logo' | undefined>('logo')
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (!isLoading) {
@@ -42,6 +43,40 @@ const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
             }, 500)
         }
     }, [isLoading])
+
+    // useEffect(() => {
+    //     const handler = (e: any) => {
+    //         const target = e.target
+
+    //         console.log(e.target.dataset)
+    //         const dataset = target?.dataset || target?.parentElement?.dataset
+
+    //         if (dataset?.isNavLink) {
+    //             e.preventDefault()
+    //             // setStop(true)
+    //             dispatch
+    //             console.log(dataset)
+    //             // dispatch(setCurrentSection(refSection))
+    //             const timer = setTimeout(() => {
+    //                 // setStop(false)
+    //                 clearTimeout(timer)
+    //             }, 800)
+    //         } 
+    //     }
+
+    //     document.addEventListener('click', handler)
+    //     return () => document.removeEventListener('click', handler)
+    // }, [])
+
+    const handleClick = (e: any, section: string) => {
+        // const section = menuItem !== 'hello' ? menuItem : null; 
+        dispatch(setStopIntersectionObserver({ stop: true, linkUsed: true }))
+        dispatch(setCurrentSection(section))
+        const timer = setTimeout(() => {
+            dispatch(setStopIntersectionObserver({ stop: false, linkUsed: true }))
+            clearTimeout(timer)
+        }, 800)
+    }
 
     return (
         <nav className="main-nav">
@@ -64,7 +99,10 @@ const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
 
                                 <motion.a
                                     data-is-nav-link
-                                    data-ref-section={menuItem}
+                                    data-ref-section={slugifiedItem}
+                                    onClick={(e: any) => {
+                                        handleClick(e, slugifiedItem)
+                                    }}
                                     animate={{ opacity: isActive ? 1 : 0.7 }}
                                     href={`#${slugifiedItem}`}
                                     className={`nav-link ${isActive ? 'active' : ''}`}>

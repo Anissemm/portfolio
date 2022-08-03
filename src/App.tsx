@@ -15,7 +15,6 @@ const menuItems = [
 ]
 
 const App = () => {
-
   const [isLoading, setIsLoading] = useState(true)
   const currentSection = useAppSelector(getCurrentSection)
 
@@ -26,6 +25,14 @@ const App = () => {
 
     return () => clearTimeout(timeoutId)
   }, [])
+
+  useEffect(() => {
+    if (currentSection === 'hello') {
+      window.history.pushState({}, currentSection, window.location.origin)
+    } else {
+      window.history.pushState({}, currentSection, `#${currentSection}`)
+    }
+  }, [currentSection])
 
   return (
     <>

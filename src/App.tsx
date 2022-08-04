@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Navbar from "./components/Navbar"
 import './App.scss'
 import Main from "./components/Main"
-import { AnimatePresence } from "framer-motion"
 import FirstLoadOverlay from "./components/FirstLoadOverlay"
 import { useAppSelector } from "./store"
 import { getCurrentSection } from "./store/reducers/navigationSlice"
+import Footer from "./components/Footer"
+import { main } from "@popperjs/core"
+import { MotionConfig } from "framer-motion"
+import { JSDocNullableType } from "typescript/lib/tsserverlibrary"
 
 const menuItems = [
   'Hello',
@@ -16,7 +19,9 @@ const menuItems = [
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [firstLoad, setFirstLoad] = useState(true)
   const currentSection = useAppSelector(getCurrentSection)
+  const mainContentRef = useRef<HTMLDivElement | JSDocNullableType>(null)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -27,22 +32,26 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (currentSection === 'hello') {
-      window.history.pushState({}, currentSection, window.location.origin)
-    } else {
-      window.history.pushState({}, currentSection, `#${currentSection}`)
+    if (!firstLoad) {
+      if (currentSection === 'hello') {
+        window.history.pushState({}, currentSection, window.location.origin)
+      } else {
+        window.history.pushState({}, currentSection, `#${currentSection}`)
+      }
     }
-  }, [currentSection])
+  }, [currentSection, firstLoad])
+
+  useEffect(() => {
+    setFirstLoad(false)
+  }, [])
 
   return (
     <>
-      <AnimatePresence>
-        {isLoading ? <FirstLoadOverlay key='first-load' /> :
-          <>
-            <Navbar key='navbar' isLoading={isLoading} items={menuItems} />
-            <Main key='main' menuItems={menuItems} />
-          </>}
-      </AnimatePresence>
+      <FirstLoadOverlay key='first-load' show={isLoading}>
+        <Navbar key='navbar' isLoading={isLoading} items={menuItems} />
+        <Main key='main' menuItems={menuItems} />
+        <Footer />
+      </FirstLoadOverlay>
     </>
   )
 }

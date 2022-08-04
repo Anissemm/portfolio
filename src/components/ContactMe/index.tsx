@@ -121,7 +121,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                 <motion.div
                     initial={{ opacity: 0, x: -100 }}
                     whileInView={{ opacity: 1, x: 0, }}
-                    viewport={{ margin: '-20px' }}
+                    viewport={{ once: true, margin: '-20px' }}
                     transition={{ duration: 0.5 }}
                     className='numeration'>
                     03 - </motion.div>
@@ -132,7 +132,12 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                     transition={{ duration: 0.5, delay: 0.5 }}>Message Me</motion.div>
             </h2>
             <motion.div className='contact-body'>
-                <div className={`contact-body-background ${loading ? 'contact-body-background--loading' : ''}`} />
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.7 }}
+                    viewport={{ once: true, margin: '-20px' }}
+                    className={`contact-body-background ${loading ? 'contact-body-background--loading' : ''}`} />
                 <div className={`form-loader ${loading ? 'form-loader--shown' : ''}`} />
                 <AnimatePresence>
                     {result &&
@@ -203,9 +208,16 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                             />
                         </div>
                         <div>
-                            <button className='submit-button' type='submit' disabled={loading}>
+                            <motion.button
+                                initial={{ opacity: 0, x: 100 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5 }}
+                                className='submit-button'
+                                type='submit'
+                                disabled={loading}
+                            >
                                 Send
-                            </button>
+                            </motion.button>
                         </div>
                     </div>
                     <ReCAPTCHA
@@ -218,7 +230,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                 </form>
                 {/* {loading && <div className='form-loader' />} */}
             </motion.div>
-        </section>
+        </section >
     )
 }
 

@@ -40,36 +40,11 @@ const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
         if (!isLoading) {
             setTimeout(() => {
                 setLogoLayoutId(undefined)
-            }, 500)
+            }, 1000)
         }
     }, [isLoading])
 
-    // useEffect(() => {
-    //     const handler = (e: any) => {
-    //         const target = e.target
-
-    //         console.log(e.target.dataset)
-    //         const dataset = target?.dataset || target?.parentElement?.dataset
-
-    //         if (dataset?.isNavLink) {
-    //             e.preventDefault()
-    //             // setStop(true)
-    //             dispatch
-    //             console.log(dataset)
-    //             // dispatch(setCurrentSection(refSection))
-    //             const timer = setTimeout(() => {
-    //                 // setStop(false)
-    //                 clearTimeout(timer)
-    //             }, 800)
-    //         } 
-    //     }
-
-    //     document.addEventListener('click', handler)
-    //     return () => document.removeEventListener('click', handler)
-    // }, [])
-
     const handleClick = (e: any, section: string) => {
-        // const section = menuItem !== 'hello' ? menuItem : null; 
         dispatch(setStopIntersectionObserver({ stop: true, linkUsed: true }))
         dispatch(setCurrentSection(section))
         const timer = setTimeout(() => {
@@ -82,7 +57,7 @@ const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
         <nav className="main-nav">
             <ul className="nav-list">
                 <li className="nav-item">
-                    <Logo layoutId={logoLayoutId} />
+                    <Logo />
                 </li>
                 <AnimateSharedLayout>
                     {items.map((menuItem, index) => {

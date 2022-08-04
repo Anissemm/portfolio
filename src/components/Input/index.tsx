@@ -1,4 +1,4 @@
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import React, { ChangeEvent, createElement, CSSProperties, FocusEvent, forwardRef, ReactElement, RefAttributes, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import Tooltip from '../Tooltip'
 import styles from './Input.module.scss'
@@ -71,28 +71,43 @@ const Input = forwardRef<CustomInput | null, InputProps>((
     return (
         <div style={{ marginBottom: 5 }}>
             <div className={styles.wrapper} style={textareaStyle}>
-                <label className={styles.label} htmlFor={id}>{label}</label>
-                {createElement(as, {
-                    'aria-label': label,
-                    className: `${error && styles.error} ${styles.input} ${as === 'textarea' ? styles.textarea : ''}`,
-                    ref: inputRef,
-                    // wrap: as === 'textarea' ? 'off' : undefined,
-                    id,
-                    type,
-                    onFocus: (e: FocusEvent<HTMLInputElement>) => {
-                        if (typeof onFocus === 'function') {
-                            onFocus(e)
-                        }
-                        setFocused(true)
-                    },
-                    onBlur: (e: FocusEvent<HTMLInputElement>) => {
-                        if (typeof onBlur === 'function') {
-                            onBlur(e)
-                        }
-                        setFocused(false)
-                    },
-                    ...props
-                })}
+                <motion.label
+                    initial={{ opacity: 0, x: -100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    viewport={{ once: true, margin: '-20px' }}
+                    className={styles.label}
+                    htmlFor={id}>
+                    {label}
+                </motion.label>
+                <motion.div
+                    initial={{ opacity: 0, x: 100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    viewport={{ once: true, margin: '-20px' }}
+                >
+                    {createElement(as, {
+                        'aria-label': label,
+                        className: `${error && styles.error} ${styles.input} ${as === 'textarea' ? styles.textarea : ''}`,
+                        ref: inputRef,
+                        // wrap: as === 'textarea' ? 'off' : undefined,
+                        id,
+                        type,
+                        onFocus: (e: FocusEvent<HTMLInputElement>) => {
+                            if (typeof onFocus === 'function') {
+                                onFocus(e)
+                            }
+                            setFocused(true)
+                        },
+                        onBlur: (e: FocusEvent<HTMLInputElement>) => {
+                            if (typeof onBlur === 'function') {
+                                onBlur(e)
+                            }
+                            setFocused(false)
+                        },
+                        ...props
+                    })}
+                </motion.div>
             </div>
             <AnimatePresence>
                 {showError && <Tooltip strategy='fixed' placeTooltip={placeTooltip} referenceElement={inputRef.current}>{error}</Tooltip>}

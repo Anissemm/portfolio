@@ -1,7 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
-import app from './reducers/appMeta'
 import navigationSlice from "./reducers/navigationSlice"
-import { persistReducer, persistStore } from "redux-persist"
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 
 
@@ -11,14 +10,19 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    app,
     navigation: navigationSlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
-    reducer: persistedReducer
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+        }
+    })
 })
 
 export type RootState = ReturnType<typeof store.getState>

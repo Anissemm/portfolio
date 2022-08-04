@@ -35,11 +35,19 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
             </motion.h2>
             <div className="projects">
                 <Project
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true, margin: '-20px' }}
                     title='Blog website - Ksorstn.org'
                     techStack={['HTML', 'CSS', 'Javascript', 'PHP', 'Wordpress']}
                     image={KsorstnImg}
                     content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia dolorum alias magni blanditiis mollitia quidem doloremque soluta, numquam laboriosam ratione, iure sunt quibusdam debitis ea, asperiores assumenda esse adipisci illo?' />
                 <Project
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true, margin: '-20px' }}
                     title='Google Doc Clone'
                     image={GoogleDocClone}
                     techStack={['NextJS', 'Firestore', 'QuillJs', 'TailwindCss']}
@@ -56,17 +64,18 @@ interface ProjectCardProps {
     image: string
 }
 
-const Project: React.FC<ProjectCardProps> = ({ title = '', content = '', techStack, image = '' }) => {
+const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '', content = '', techStack, image = '' }, ref) => {
     const [imageHeight, setImageHeight] = useState<undefined | number | null>()
     const [setImageRef, imageEntry] = useResizeObserver()
 
 
     useEffect(() => {
-        setImageHeight(imageEntry?.target.scrollHeight)
+        setImageHeight(imageEntry?.borderBoxSize[0].blockSize)
     }, [imageEntry])
 
     return (
-        <article
+        <motion.article
+            ref={ref}
             className="project">
             <a
                 // onPointerEnter={(e: PointerEvent<HTMLAnchorElement>) => {
@@ -97,7 +106,11 @@ const Project: React.FC<ProjectCardProps> = ({ title = '', content = '', techSta
                 // }}
                 href='https://ksorstn.org' target='_blank' rel='noreferrer nofollow noopener'>
                 <div>
-                    <div
+                    <motion.div
+                        initial={{opacity: 0}}
+                        whileInView={{opacity: 1}}
+                        transition={{delay: 0.5, transition: 0.5}}
+                        viewport={{once: true, margin: '-20px'}}
                         style={{ height: imageHeight ? imageHeight : undefined }}
                         className='project-background'
                     />
@@ -119,14 +132,14 @@ const Project: React.FC<ProjectCardProps> = ({ title = '', content = '', techSta
                                 {content}
                             </p>
                             <ul className='project-tech-stack'>
-                                {techStack.map(item => <li key={item}>{item}</li>)}
+                                {techStack.map((item: any) => <li key={item}>{item}</li>)}
                             </ul>
                         </div>
                     </div>
                 </div>
             </a>
-        </article>
+        </motion.article>
     )
-}
+}))
 
 export default WorkSection

@@ -211,6 +211,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                             <motion.button
                                 initial={{ opacity: 0, x: 100 }}
                                 whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{once: true, margin: '-20px'}}
                                 transition={{ duration: 0.5 }}
                                 className='submit-button'
                                 type='submit'

@@ -37,66 +37,68 @@ const variants = {
 
 const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ id }) => {
     const setSectionRef = useCurrentSection('Hello')
-    const slugifiedId = slugify(id, {lower: true, replacement: '-'})
+    const slugifiedId = slugify(id, { lower: true, replacement: '-' })
 
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section welcome-section" >
-            <motion.div
-                initial="hidden"
-                animate="visible"
-                className="welcome-text">
-                <motion.h2
-                    className="greetings"
-                    custom={1}
-                    variants={variants}>
-                    Hello!</motion.h2>
+            <div style={{ maxWidth: 1400, margin: 'auto' }}>
                 <motion.div
-                    custom={2}
-                    variants={variants}>
-                    My name is Anis Dimassi.</motion.div>
-                <motion.div
-                    custom={3}
-                    variants={variants}>
-                    I'm a Full-Stack Web Developer, bringing you extraordinary digital solutions.
+                    initial="hidden"
+                    animate="visible"
+                    className="welcome-text">
+                    <motion.h2
+                        className="greetings"
+                        custom={1}
+                        variants={variants}>
+                        Hello!</motion.h2>
+                    <motion.div
+                        custom={2}
+                        variants={variants}>
+                        My name is Anis Dimassi.</motion.div>
+                    <motion.div
+                        custom={3}
+                        variants={variants}>
+                        I'm a Full-Stack Web Developer, bringing you extraordinary digital solutions.
+                    </motion.div>
+                    <motion.a
+                        className="resume-link"
+                        initial={{ background: 'rgb(4, 102, 200, 0.1)', scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        whileHover={{ background: 'rgb(4, 102, 200, 0.4)' }}
+                        transition={{
+                            delay: 1,
+                            transition: 1,
+                            background: {
+                                transition: 0.5,
+                                delay: 0
+                            }
+                        }}
+                    >
+                        My Resume
+                    </motion.a>
                 </motion.div>
-                <motion.a
-                    className="resume-link"
-                    initial={{ background: 'rgb(4, 102, 200, 0.1)', scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    whileHover={{ background: 'rgb(4, 102, 200, 0.4)' }}
-                    transition={{
-                        delay: 1,
-                        transition: 1,
-                        background: {
-                            transition: 0.5,
-                            delay: 0
-                        }
-                    }}
-                >
-                    My Resume
-                </motion.a>
-            </motion.div>
-            <motion.p
-                initial="hidden"
-                animate="visible"
-                className="external-links">
-                <motion.a
-                    custom={6}
-                    variants={variants}
-                    href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
-                    aria-label="Linkedin profile link"
-                    target='_blank'>
-                    <LinkedinIcon className="linkedin-icon" />
-                </motion.a>
-                <motion.a
-                    custom={7} variants={variants}
-                    href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
-                    aria-label="Linkedin profile link"
-                    target='_blank'>
-                    <GithubIcon className="github-icon" />
-                </motion.a>
-            </motion.p>
+                <motion.p
+                    initial="hidden"
+                    animate="visible"
+                    className="external-links">
+                    <motion.a
+                        custom={6}
+                        variants={variants}
+                        href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
+                        aria-label="Linkedin profile link"
+                        target='_blank'>
+                        <LinkedinIcon className="linkedin-icon" />
+                    </motion.a>
+                    <motion.a
+                        custom={7} variants={variants}
+                        href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
+                        aria-label="Linkedin profile link"
+                        target='_blank'>
+                        <GithubIcon className="github-icon" />
+                    </motion.a>
+                </motion.p>
+            </div>
         </section>
     )
 }

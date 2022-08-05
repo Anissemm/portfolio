@@ -1,5 +1,5 @@
 import { forwardRef, MouseEvent, PointerEvent, useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import KsorstnImgSm from '../../assets/ksorstn-sm.jpg'
 import KsorstnImgLg from '../../assets/ksorstn-lg.jpg'
 import GoogleDocCloneSm from '../../assets/inifinityEditor-sm.png'
@@ -23,6 +23,17 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
     const screenBreakpoint = useAppSelector(getCurrentBreakpoint)
     const largeBreakpoints = ['lg', 'xl', '2xl']
     const largeScreen = largeBreakpoints.includes(screenBreakpoint === null ? '' : screenBreakpoint)
+
+    useEffect(() => {
+        const handleClick = (e: any) => {
+            console.log(e?.target?.closest('[data-hovering-side]'))
+        }
+        if (largeScreen) {
+            document.addEventListener('click', handleClick)
+        }
+
+        return document.removeEventListener('click', handleClick)
+    }, [largeScreen])
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section work-section" >
@@ -117,32 +128,34 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '
                                 setHovered(false)
                             }}
                             className={`left-side ${hovered ? 'hovered' : ''}`}>
-                            <AnimatePresence exitBeforeEnter>
-                                <div className='project-background' />
-                                {!hovered && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={layoutId} className="project-thumbnail" ref={setImageRef}>
-                                    <div className='thumbnail-blend' />
-                                    <ExternalLinkIcon className="external-link-icon" />
-                                    <img src={image} alt='Ksorstn.org Wordpress Blog image' />
-                                </motion.div>}
-                                <header className='project-heading'>
-                                    <h3>{title}</h3>
-                                    <div className='tech-stack-wrapper'>
-                                        <ul className='project-tech-stack'>
-                                            {techStack.map((item: any) => <li key={item}>{item}</li>)}
-                                        </ul>
-                                    </div>
-                                </header>
-                                {hovered && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={layoutId} className="project-thumbnail" ref={setImageRef}>
-                                    <img src={image} alt='Ksorstn.org Wordpress Blog image' />
-                                    <span className="link-text">
-                                        <a href={link} target='_blank' rel='noreferrer nofollow noopener'>
-                                            <span>
-                                                Visit
-                                            </span>
-                                        </a>
-                                    </span>
-                                </motion.div>}
-                            </AnimatePresence>
+                            <AnimatePresence initial exitBeforeEnter>
+                                <LayoutGroup id={layoutId}>
+                                    <div className='project-background' />
+                                    {!hovered && <motion.div key='normal' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={layoutId} className="project-thumbnail" ref={setImageRef}>
+                                        <div className='thumbnail-blend' />
+                                        <ExternalLinkIcon className="external-link-icon" />
+                                        <img src={image} alt='Ksorstn.org Wordpress Blog image' />
+                                    </motion.div>}
+                                    <header className='project-heading'>
+                                        <h3>{title}</h3>
+                                        <div className='tech-stack-wrapper'>
+                                            <ul className='project-tech-stack'>
+                                                {techStack.map((item: any) => <li key={item}>{item}</li>)}
+                                            </ul>
+                                        </div>
+                                    </header>
+                                    {hovered && <motion.div key='hovered' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={layoutId} className="project-thumbnail" ref={setImageRef}>
+                                        <img src={image} alt='Ksorstn.org Wordpress Blog image' />
+                                        <span className="link-text">
+                                            <a href={link} target='_blank' rel='noreferrer nofollow noopener'>
+                                                <span>
+                                                    Visit
+                                                </span>
+                                            </a>
+                                        </span>
+                                    </motion.div>}
+                                </LayoutGroup>
+                            </AnimatePresence> 
                         </div>
                         <div className='right-side'>
                             <p className='project-description'>

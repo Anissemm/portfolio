@@ -3,6 +3,8 @@
 
 .contact-body {
     position: relative;
+    max-width: 900px;
+    margin: auto;
 
     @keyframes animate {
         0% {

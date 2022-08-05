@@ -48,16 +48,22 @@
         color: $gray-50;
         background-color: color.change($blue-600, $alpha: 0.6);
 
+        @media screen and (min-width: 640px) {}
+
         .project-description {
             margin: 0;
             padding: 5px;
             line-height: 1.4em;
-            font-size: 16px;
+            font-size: 1.1em;
             height: 100%;
             padding-top: 15px;
             overflow-y: auto;
             flex-grow: 1;
             transition: all 300ms ease-in-out;
+
+            @media screen and (min-width: 640px) {
+                padding: 25px;
+            }
         }
 
         h3 {
@@ -65,7 +71,7 @@
             padding: 0 5px;
             padding-top: 5px;
             text-transform: uppercase;
-            font-size: 20px;
+            font-size: 1.2em;
         }
     }
 
@@ -98,6 +104,7 @@
         display: inline-flex;
         flex-wrap: wrap;
         padding: 0 5px;
+
         list-style: none;
         font-family: 'Space Mono', monospace;
 
@@ -105,7 +112,7 @@
             color: $gray-50;
             font-style: italic;
             margin-right: 5px;
-            font-size: 14px;
+            font-size: 0.875em;
         }
 
         li::after {
@@ -121,7 +128,208 @@
 .project:hover {
     box-shadow: 0 0 5px $blue-200;
 
-    // .project-background {
-    //     transform: translate(16px, 16px);
-    // }
+}
+
+
+@media screen and (min-width: 1024px) {
+    .project {
+        margin-top: 50px;
+        min-height: 430px;
+
+        &:hover {
+            box-shadow: none;
+        }
+
+        .left-side .project-background {
+            top: 30px;
+            left: 30px;
+        }
+
+        .hovered .project-background {
+            transform: translate(-60px, -60px);
+        }
+
+        > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-wrapper {
+            background-color: transparent;
+            width: 950px;
+
+            .left-side {
+                position: absolute;
+                border-radius: 10px;
+                display: inline-block;
+
+                &.hovered {
+                    z-index: 10;
+
+                    .link-text {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .link-text a {
+                        color: $blue-700;
+                        padding: 15px 30px;
+                        border: 2px solid $blue-700;
+                        border-radius: 10px;
+                        font-size: 2rem;
+                        font-weight: bold;
+                        display: flex;
+                        justify-items: center;
+                        align-items: center;
+                        text-align: center;
+                        transition: all 300ms ease-in-out;
+                        background-color: $gray-50;
+                        overflow: hidden;
+                    }
+                }
+            }
+
+            .project-thumbnail {
+                max-width: 650px;
+                max-height: 400px;
+
+                .thumbnail-blend {
+                    mix-blend-mode: normal;
+                    background-color: color.change($blue-300, $alpha: 0.5);
+                    z-index: initial;
+                }
+
+                img {
+                    opacity: 1;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .external-link-icon {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 45px;
+                height: 40px;
+            }
+
+            .project-heading {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: color.change($gray-100, $alpha: 0.75);
+                color: $blue-700;
+
+                h3 {
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    font-size: 32px;
+                    letter-spacing: -0.03em;
+                    padding: 34px 30px;
+                    margin: 0;
+                    text-align: left;
+                    max-width: 430px;
+                }
+
+                .tech-stack-wrapper {
+                    padding: 10px 0;
+                    margin-right: auto;
+                    margin-left: 0;
+                }
+
+                .project-tech-stack {
+                    justify-content: end;
+                    padding: 0 34px;
+                    max-width: 430px;
+                    margin: 0;
+
+                    li {
+                        color: $blue-700;
+                        font-size: 24px;
+                    }
+                }
+            }
+
+            .right-side {
+                position: relative;
+                right: 0;
+                top: 60px;
+                left: 430px;
+                width: 520px;
+                min-height: 250px;
+                height: 100%;
+                background-color: $blue-500;
+                border-radius: 10px;
+                box-shadow: 0 0 5px $blue-300;
+                color: $gray-50;
+
+                .project-description {
+                    padding: 26px;
+                    font-size: 24px;
+                    text-align: left;
+                }
+            }
+
+        }
+    }
+
+    .project:nth-child(odd) {
+
+        .project-background {
+            top: -30px;
+            left: -30px;
+        }
+
+        .hovered .project-background {
+            transform: translate(60px, 60px);
+        }
+
+        .left-side {
+            right: 0;
+        }
+
+        .right-side {
+            left: 0;
+            right: 430px;
+        }
+
+        .external-link-icon {
+            left: auto;
+            right: 10px;
+        }
+
+        .project-heading {
+
+            h3 {
+                text-align: right;
+            }
+
+            h3,
+            .tech-stack-wrapper {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .tech-stack-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                max-width: 430px;
+                margin-left: auto;
+            }
+
+            .project-tech-stack {
+                justify-content: start !important;
+            }
+        }
+    }
 }

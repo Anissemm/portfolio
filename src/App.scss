@@ -53,6 +53,10 @@ section::-webkit-scrollbar-thumb {
         padding-right: 105px;
         padding-left: 40px;
     }
+
+    @media screen and (min-width: 640px) {
+        font-size: 1.4em;
+    }
 }
 
 .section-heading {

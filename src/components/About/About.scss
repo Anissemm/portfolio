@@ -3,7 +3,14 @@
 
 .about-body {
     p {
-        font-size: 16px;
+        font-size: 1em;
+        text-align: justify;
+    }
+
+    @media screen and (min-width: 768px) {
+        p:first-child {
+            display: inline;
+        }
     }
 }
 
@@ -23,7 +30,7 @@
     font-family: "Space Mono",
     monospace;
     font-weight: 300;
-    font-size: 16px;
+    font-size: 0.925em;
     list-style: square;
 }
 
@@ -34,6 +41,22 @@
     height: 250px;
     border-radius: 5px;
     cursor: pointer;
+
+    @media screen and (min-width: 768px) {
+        float: right;
+        width: 280px;
+        height: 280px;
+        margin-top: 10px;
+        padding-bottom: 20px;
+        margin-left: 40px;
+        margin-right: 30px;
+        margin-bottom: 30px;
+    }
+
+    @media screen and (min-width: 1024px) {
+        width: 350px;
+        height: 350px;
+    }
 
     &::before {
         content: '';
@@ -61,8 +84,6 @@
 
     .picture-wrapper {
         position: relative;
-        width: 250px;
-        height: 250px;
 
         img {
             width: 100%;

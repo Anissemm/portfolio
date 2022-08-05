@@ -9,6 +9,7 @@ import Footer from "./components/Footer"
 import { main } from "@popperjs/core"
 import { MotionConfig } from "framer-motion"
 import { JSDocNullableType } from "typescript/lib/tsserverlibrary"
+import useScreenBreakpoint from "./hooks/useScreenBreakpoint"
 
 const menuItems = [
   'Hello',
@@ -21,7 +22,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [firstLoad, setFirstLoad] = useState(true)
   const currentSection = useAppSelector(getCurrentSection)
-  const mainContentRef = useRef<HTMLDivElement | JSDocNullableType>(null)
+  useScreenBreakpoint()
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {

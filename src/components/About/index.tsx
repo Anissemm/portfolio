@@ -3,10 +3,11 @@ import ProfilePicture from '../../assets/profil.png'
 import { motion } from 'framer-motion'
 import './About.scss'
 import { useInView } from 'react-intersection-observer'
-import { useAppDispatch } from '../../store'
+import { useAppDispatch, useAppSelector } from '../../store'
 import { setCurrentSection } from '../../store/reducers/navigationSlice'
 import slugify from 'slugify'
 import useCurrentSection from '../../hooks/useCurrentSection'
+import { getCurrentBreakpoint } from '../../store/reducers/uiSlice'
 
 interface AboutProps {
     id: string
@@ -31,6 +32,8 @@ const headerVariants = {
 const About: React.FC<AboutProps> = ({ id }) => {
     const setSectionRef = useCurrentSection('About')
     const slugifiedId = slugify(id, { lower: true, replacement: '-' })
+    const screenBreakpoint = useAppSelector(getCurrentBreakpoint)
+    const smallBreakpoints = [null, 'sxs', 'xs', 'sm']
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section about-section">
@@ -51,15 +54,17 @@ const About: React.FC<AboutProps> = ({ id }) => {
             </h2>
 
             <div className='about-body'>
-                <motion.p
-                    viewport={{ once: true, margin: '-20px' }}
-                    initial={{ opacity: 0, y: 100 }}
-                    whileInView={{ opacity: 1, y: 0, }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                    Hello! My name is Anis I am a full-stack web developer currently in search of opportunities that contribute to realizing my skills and capabilities in creating digital experiences.
-                </motion.p>
-
+                <div className='first-paragraph'>
+                    {!smallBreakpoints.includes(screenBreakpoint) && <Picture src={ProfilePicture} />}
+                    <motion.p
+                        viewport={{ once: true, margin: '-20px' }}
+                        initial={{ opacity: 0, y: 100 }}
+                        whileInView={{ opacity: 1, y: 0, }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                        Hello! My name is Anis I am a full-stack web developer currently in search of opportunities that contribute to realizing my skills and capabilities in creating digital experiences.
+                    </motion.p>
+                </div>
                 <motion.p
                     viewport={{ once: true, margin: '-20px' }}
                     initial={{ opacity: 0, y: 100 }}
@@ -101,24 +106,31 @@ const About: React.FC<AboutProps> = ({ id }) => {
                     <motion.li>Node.js</motion.li>
                     <motion.li>NextJS</motion.li>
                 </motion.ul>
-                <motion.div
-                    viewport={{ once: true, margin: '-20px' }}
-                    initial={{ opacity: 0, y: 100 }}
-                    whileInView={{ opacity: 1, y: 0, }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className='picture'>
-                    <div className='picture-wrapper'>
-                        <motion.div
-                            viewport={{ once: true, margin: '-20px' }}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 0.7 }}
-                            className='blend' />
-                        <img src={ProfilePicture} alt='My Profile Picture' />
-                    </div>
-                </motion.div>
+                {smallBreakpoints.includes(screenBreakpoint) && <Picture src={ProfilePicture} />}
             </div>
         </section>
     )
 }
+
+const Picture: React.FC<{ src: string }> = ({ src }) => {
+    return (
+        <motion.div
+            viewport={{ once: true, margin: '-20px' }}
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0, }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className='picture'>
+            <div className='picture-wrapper'>
+                <motion.div
+                    viewport={{ once: true, margin: '-20px' }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.7 }}
+                    className='blend' />
+                <img src={src} alt='My Profile Picture' />
+            </div>
+        </motion.div>
+    )
+}
+
 export default About

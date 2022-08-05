@@ -22,7 +22,7 @@ const variants: Variants = {
 
 const FirstLoadOverlay: React.FC<PropsWithChildren<{ show: boolean }>> = ({ show = false, children }) => {
     return (
-        <AnimatePresence>
+        <AnimatePresence exitBeforeEnter>
             {show ? <motion.div
                 variants={variants}
                 initial='hidden'

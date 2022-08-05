@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import navigationSlice from "./reducers/navigationSlice"
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
 import storage from "redux-persist/lib/storage"
+import uiSlice from "./reducers/uiSlice"
 
 
 const persistConfig = {
@@ -10,7 +11,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    navigation: navigationSlice
+    navigation: navigationSlice,
+    ui: uiSlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

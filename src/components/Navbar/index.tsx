@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { getCurrentSection, setCurrentSection, setStopIntersectionObserver } from '../../store/reducers/navigationSlice'
 import slugify from 'slugify'
+import { moveSyntheticComments } from 'typescript'
 
 interface NavbarProps {
     children?: React.ReactChildren
@@ -54,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
     }
 
     return (
-        <nav className="main-nav">
+        <motion.nav className="main-nav">
             <ul className="nav-list">
                 <li className="nav-item">
                     <Logo />
@@ -91,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = ({ items, isLoading }) => {
                     })}
                 </AnimateSharedLayout>
             </ul>
-        </nav>
+        </motion.nav>
     )
 }
 

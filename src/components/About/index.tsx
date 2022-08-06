@@ -8,6 +8,7 @@ import { setCurrentSection } from '../../store/reducers/navigationSlice'
 import slugify from 'slugify'
 import useCurrentSection from '../../hooks/useCurrentSection'
 import { getCurrentBreakpoint } from '../../store/reducers/uiSlice'
+import Heading from '../Heading'
 
 interface AboutProps {
     id: string
@@ -37,22 +38,7 @@ const About: React.FC<AboutProps> = ({ id }) => {
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section about-section">
-            <h2
-                className='section-heading'>
-                <motion.div
-                    initial={{ opacity: 0, x: -100 }}
-                    whileInView={{ opacity: 1, x: 0, }}
-                    viewport={{ once: true, margin: '-20px' }}
-                    transition={{ duration: 0.5 }}
-                    className='numeration'>
-                    01 - </motion.div>
-                <motion.div
-                    viewport={{ once: true, margin: '-20px' }}
-                    initial={{ opacity: 0, x: 100 }}
-                    whileInView={{ opacity: 1, x: 0, }}
-                    transition={{ duration: 0.5, delay: 0.3 }}> About Me</motion.div>
-            </h2>
-
+            <Heading itemNumber={1}>About me</Heading> 
             <div className='about-body'>
                 <div className='first-paragraph'>
                     {!smallBreakpoints.includes(screenBreakpoint) && <Picture src={ProfilePicture} />}

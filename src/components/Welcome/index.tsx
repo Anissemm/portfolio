@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import './Welcome.scss'
 import { ReactComponent as LinkedinIcon } from '../../assets/svg/linkedin.svg'
 import { ReactComponent as GithubIcon } from '../../assets/svg/github.svg'
+import { ReactComponent as CodepenIcon } from '../../assets/svg/codepen.svg'
 import useCurrentSection from "../../hooks/useCurrentSection"
 import slugify from "slugify"
 
@@ -87,15 +88,28 @@ const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ id }) => {
                         variants={variants}
                         href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
                         aria-label="Linkedin profile link"
+                        title="Linkedin profile link"
+                        rel="noreferrer nofollow noopener"
                         target='_blank'>
                         <LinkedinIcon className="linkedin-icon" />
                     </motion.a>
                     <motion.a
                         custom={7} variants={variants}
-                        href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
-                        aria-label="Linkedin profile link"
+                        href="https://github.com/Anissemm/"
+                        aria-label="Github profile link"
+                        title="Github profile link"
+                        rel="noreferrer nofollow noopener"
                         target='_blank'>
                         <GithubIcon className="github-icon" />
+                    </motion.a>
+                    <motion.a
+                        custom={7} variants={variants}
+                        href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
+                        aria-label="Codepen profile link"
+                        title="Codepen profile link"
+                        rel="noreferrer nofollow noopener"
+                        target='_blank'>
+                        <CodepenIcon className="codepen-icon" />
                     </motion.a>
                 </motion.p>
             </div>

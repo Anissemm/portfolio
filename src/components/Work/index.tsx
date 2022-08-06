@@ -1,4 +1,4 @@
-import { forwardRef, MouseEvent, PointerEvent, useEffect, useRef, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import KsorstnImgSm from '../../assets/ksorstn-sm.jpg'
 import KsorstnImgLg from '../../assets/ksorstn-lg.jpg'
@@ -8,10 +8,12 @@ import './Work.scss'
 import useCurrentSection from "../../hooks/useCurrentSection"
 import slugify from "slugify"
 import { useResizeObserver } from "../../hooks/useResizeObserver"
-import { eventFrom } from "event-from"
 import { useAppSelector } from "../../store"
 import { getCurrentBreakpoint } from "../../store/reducers/uiSlice"
+import Heading from "../Heading"
+import isTouchDevice from 'is-touch-device'
 import { ReactComponent as ExternalLinkIcon } from '../../assets/svg/external-link-icon.svg'
+import { ReactComponent as Cross } from '../../assets/svg/cross.svg'
 
 interface WorkProps {
     id: string
@@ -37,24 +39,10 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section work-section" >
-            <motion.h2
-                className='section-heading'>
-                <motion.div
-                    initial={{ opacity: 0, x: -100 }}
-                    whileInView={{ opacity: 1, x: 0, }}
-                    viewport={{ once: true, margin: '-20px' }}
-                    transition={{ duration: 0.5 }}
-                    className='numeration'>
-                    02 - </motion.div>
-                <motion.div
-                    viewport={{ once: true, margin: '-20px' }}
-                    initial={{ opacity: 0, x: 100 }}
-                    whileInView={{ opacity: 1, x: 0, }}
-                    transition={{ duration: 0.5, delay: 0.5 }}> Some things I did</motion.div>
-            </motion.h2>
+            <Heading itemNumber={2}>Some things I did</Heading>
             <div className="projects">
                 <Project
-                    layoutId="ksorst"
+                    id="ksorst"
                     initial={{ opacity: 0, y: 100 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
@@ -64,9 +52,21 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     techStack={['HTML', 'CSS', 'Javascript', 'PHP', 'Wordpress']}
                     largeScreen={largeScreen}
                     image={largeScreen ? KsorstnImgLg : KsorstnImgSm}
-                    content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia dolorum alias magni blanditiis mollitia quidem doloremque soluta, numquam laboriosam ratione, iure sunt quibusdam debitis ea, asperiores assumenda esse adipisci illo?' />
+                    content='Built a custom responsive WordPress theme from scratch for a multi-page blog website.' />
                 <Project
-                    layoutId="googe-doc-1"
+                    id="google-doc-1"
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true, margin: '-20px' }}
+                    title='Google Doc Clone - "Infinity Editor"'
+                    largeScreen={largeScreen}
+                    image={largeScreen ? GoogleDocCloneLg : GoogleDocCloneSm}
+                    link='https://doc-editor-tau.vercel.app'
+                    techStack={['NextJS', 'Firebase', 'QuillJs', 'TailwindCss']}
+                    content='Mobile-friendly rich text editor with cloud autosave. Allows to create, edit, print, and download documents in Docx format.' />
+                <Project
+                    id="google-doc-2"
                     initial={{ opacity: 0, y: 100 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
@@ -76,19 +76,7 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     image={largeScreen ? GoogleDocCloneLg : GoogleDocCloneSm}
                     link='https://doc-editor-tau.vercel.app'
                     techStack={['NextJS', 'Firestore', 'QuillJs', 'TailwindCss']}
-                    content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia dolorum alias magni blanditiis mollitia quidem doloremque soluta, numquam laboriosam ratione, iure sunt quibusdam debitis ea, asperiores assumenda esse adipisci illo?' />
-                <Project
-                    layoutId="googe-doc-2"
-                    initial={{ opacity: 0, y: 100 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true, margin: '-20px' }}
-                    title='Google Doc Clone'
-                    largeScreen={largeScreen}
-                    image={largeScreen ? GoogleDocCloneLg : GoogleDocCloneSm}
-                    link='https://doc-editor-tau.vercel.app'
-                    techStack={['NextJS', 'Firestore', 'QuillJs', 'TailwindCss']}
-                    content='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia dolorum alias magni blanditiis mollitia quidem doloremque soluta, numquam laboriosam ratione, iure sunt quibusdam debitis ea, asperiores assumenda esse adipisci illo?' />
+                    content='Built a fully responsive multi-page WordPress website and custom CSS design.' />
             </div>
         </section>
     )
@@ -101,17 +89,34 @@ interface ProjectCardProps {
     image: string
     link: string
     largeScreen?: boolean
-    layoutId: string
+    id: string
 }
 
-const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '', content = '', techStack, image = '', layoutId = '', link = '#', largeScreen = false }, ref) => {
+const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '', content = '', techStack, image = '', id = '', link = '#', largeScreen = false }, ref) => {
     const [imageHeight, setImageHeight] = useState<undefined | number | null>()
     const [setImageRef, imageEntry] = useResizeObserver()
     const [hovered, setHovered] = useState(false)
+    const [touchFirstClick, setTouchFirstClick] = useState(true)
 
     useEffect(() => {
         setImageHeight(imageEntry?.borderBoxSize[0].blockSize)
     }, [imageEntry])
+
+    useEffect(() => {
+        const handleOutsideClick = (e: any) => {
+            const projectId = e.target?.closest('[data-project-id]')?.dataset?.projectId
+
+            if (projectId !== id) {
+                setHovered(false)
+            }
+        }
+
+        document.addEventListener('pointerdown', handleOutsideClick)
+
+        return () => document.removeEventListener('pointerdown', handleOutsideClick)
+    }, [])
+
+    const isTouch = isTouchDevice()
 
     return (
         <motion.article
@@ -121,20 +126,35 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '
                 <div>
                     <div className="project-wrapper">
                         <div
+                            data-project-id={id}
                             onPointerEnter={(e: any) => {
-                                setHovered(true)
+                                if (e.pointerType !== 'touch') {
+                                    setHovered(true)
+                                }
                             }}
                             onPointerLeave={(e: any) => {
-                                setHovered(false)
+                                if (e.pointerType !== 'touch') {
+                                    setHovered(false)
+                                }
                             }}
+
                             className={`left-side ${hovered ? 'hovered' : ''}`}>
                             <AnimatePresence initial exitBeforeEnter>
-                                <LayoutGroup id={layoutId}>
+                                <LayoutGroup id={id}>
                                     <div className='project-background' />
-                                    {!hovered && <motion.div key='normal' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={layoutId} className="project-thumbnail" ref={setImageRef}>
+                                    <button type='button'
+                                        onPointerDown={(e: any) => {
+                                            if (e.pointerType === 'touch' && touchFirstClick) {
+                                                setHovered(true)
+                                            }
+                                        }}
+                                        disabled={!isTouch || hovered}
+                                        className='external-link-btn'>
+                                        <ExternalLinkIcon />
+                                    </button>
+                                    {!hovered && <motion.div key='normal' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={id} className="project-thumbnail" ref={setImageRef}>
                                         <div className='thumbnail-blend' />
-                                        <ExternalLinkIcon className="external-link-icon" />
-                                        <img src={image} alt='Ksorstn.org Wordpress Blog image' />
+                                        <img src={image} alt={`${title}-screenshot`} />
                                     </motion.div>}
                                     <header className='project-heading'>
                                         <h3>{title}</h3>
@@ -144,7 +164,7 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '
                                             </ul>
                                         </div>
                                     </header>
-                                    {hovered && <motion.div key='hovered' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={layoutId} className="project-thumbnail" ref={setImageRef}>
+                                    {hovered && <motion.div key='hovered' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={id} className="project-thumbnail" ref={setImageRef}>
                                         <img src={image} alt='Ksorstn.org Wordpress Blog image' />
                                         <span className="link-text">
                                             <a href={link} target='_blank' rel='noreferrer nofollow noopener'>
@@ -155,11 +175,11 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '
                                         </span>
                                     </motion.div>}
                                 </LayoutGroup>
-                            </AnimatePresence> 
+                            </AnimatePresence>
                         </div>
                         <div className='right-side'>
                             <p className='project-description'>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi voluptates pariatur, distinctio eum labore corporis vero atque earum accusantium tempore ratione? Atque explicabo repellat error unde, minima corporis quas est.
+                                {content}
                             </p>
                         </div>
                     </div>
@@ -175,9 +195,10 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '
                             className='project-background'
                         />
                         <div className="project-wrapper">
+                            <ExternalLinkIcon className="external-link-icon" />
                             <div className="project-thumbnail" ref={setImageRef}>
                                 <div className='thumbnail-blend' />
-                                <img src={image} alt='Ksorstn.org Wordpress Blog image' />
+                                <img src={image} alt={`${title}\'s-screenshot`} />
                             </div>
                             <div className='project-text'>
                                 <h3 className='project-title'>{title}</h3>

@@ -7,6 +7,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import Input from "../Input"
 import './ContactMe.scss'
 import { useEffect, useRef, useState } from "react"
+import Heading from "../Heading"
 
 const variants = {
     hidden: {
@@ -116,21 +117,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section contact-me-section" >
-            <h2
-                className='section-heading'>
-                <motion.div
-                    initial={{ opacity: 0, x: -100 }}
-                    whileInView={{ opacity: 1, x: 0, }}
-                    viewport={{ once: true, margin: '-20px' }}
-                    transition={{ duration: 0.5 }}
-                    className='numeration'>
-                    03 - </motion.div>
-                <motion.div
-                    viewport={{ once: true, margin: '-20px' }}
-                    initial={{ opacity: 0, x: 100 }}
-                    whileInView={{ opacity: 1, x: 0, }}
-                    transition={{ duration: 0.5, delay: 0.5 }}>Message Me</motion.div>
-            </h2>
+            <Heading itemNumber={3}>Message me</Heading> 
             <motion.div className='contact-body'>
                 <motion.div
                     initial={{ opacity: 0 }}

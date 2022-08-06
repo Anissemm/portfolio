@@ -1,0 +1,11 @@
+{
+    "name": "send-mail",
+    "version": "1.0.0",
+    "type": "commonjs",
+    "description": "sends mails from my portfolio",
+    "author": "Anis \"Anissem\" Dimassi",
+    "dependencies": {
+        "unirest": "^0.6.0",
+        "nodemailer": "^6.7.7"
+    }
+}

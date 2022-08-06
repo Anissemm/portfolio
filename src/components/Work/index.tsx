@@ -65,18 +65,6 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     link='https://doc-editor-tau.vercel.app'
                     techStack={['NextJS', 'Firebase', 'QuillJs', 'TailwindCss']}
                     content='Mobile-friendly rich text editor with cloud autosave. Allows to create, edit, print, and download documents in Docx format.' />
-                <Project
-                    id="google-doc-2"
-                    initial={{ opacity: 0, y: 100 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true, margin: '-20px' }}
-                    title='Google Doc Clone'
-                    largeScreen={largeScreen}
-                    image={largeScreen ? GoogleDocCloneLg : GoogleDocCloneSm}
-                    link='https://doc-editor-tau.vercel.app'
-                    techStack={['NextJS', 'Firestore', 'QuillJs', 'TailwindCss']}
-                    content='Built a fully responsive multi-page WordPress website and custom CSS design.' />
             </div>
         </section>
     )

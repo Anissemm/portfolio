@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { usePopper } from 'react-popper'
 import type { Placement } from '@popperjs/core'
 import style from './Tooltip.module.scss'

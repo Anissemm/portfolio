@@ -63,8 +63,9 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     largeScreen={largeScreen}
                     image={largeScreen ? GoogleDocCloneLg : GoogleDocCloneSm}
                     link='https://doc-editor-tau.vercel.app'
+                    codeLink='https://github.com/Anissemm/portfolio'
                     techStack={['NextJS', 'Firebase', 'QuillJs', 'TailwindCss']}
-                    content='Mobile-friendly rich text editor with cloud autosave. Allows to create, edit, print, and download documents in Docx format.' />
+                    content='Mobile-friendly WYSIWYG editor with cloud autosave. Allows to create, edit, print, and download documents in Docx format.' />
             </div>
         </section>
     )
@@ -76,11 +77,22 @@ interface ProjectCardProps {
     techStack: string[]
     image: string
     link: string
+    codeLink?: string
     largeScreen?: boolean
     id: string
 }
 
-const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '', content = '', techStack, image = '', id = '', link = '#', largeScreen = false }, ref) => {
+const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>((
+    {
+        title = '',
+        content = '',
+        techStack,
+        image = '',
+        id = '',
+        link = '#',
+        codeLink,
+        largeScreen = false
+    }, ref) => {
     const [imageHeight, setImageHeight] = useState<undefined | number | null>()
     const [setImageRef, imageEntry] = useResizeObserver()
     const [hovered, setHovered] = useState(false)
@@ -154,13 +166,22 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>(({ title = '
                                     </header>
                                     {hovered && <motion.div key='hovered' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} layoutId={id} className="project-thumbnail" ref={setImageRef}>
                                         <img src={image} alt='Ksorstn.org Wordpress Blog image' />
-                                        <span className="link-text">
-                                            <a href={link} target='_blank' rel='noreferrer nofollow noopener'>
-                                                <span>
-                                                    Visit
-                                                </span>
-                                            </a>
-                                        </span>
+                                        <div className='links-wrapper'>
+                                            <span className="link-text">
+                                                <a href={link} target='_blank' rel='noreferrer nofollow noopener'>
+                                                    <span>
+                                                        Visit
+                                                    </span>
+                                                </a>
+                                            </span>
+                                            {codeLink && <span className="link-text">
+                                                <a href={codeLink} target='_blank' rel='noreferrer nofollow noopener'>
+                                                    <span>
+                                                    Code &lt;\&gt;
+                                                    </span>
+                                                </a>
+                                            </span>}
+                                        </div>
                                     </motion.div>}
                                 </LayoutGroup>
                             </AnimatePresence>

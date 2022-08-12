@@ -104,7 +104,7 @@ const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ id }) => {
                     </motion.a>
                     <motion.a
                         custom={7} variants={variants}
-                        href="https://www.linkedin.com/in/anis-dimassi-0610a217b/"
+                        href="https://codepen.io/anissemd"
                         aria-label="Codepen profile link"
                         title="Codepen profile link"
                         rel="noreferrer nofollow noopener"

@@ -1,5 +1,4 @@
-import { EventHandler } from 'framer-motion/types/events/types'
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import slugify from 'slugify'
 import { useAppDispatch, useAppSelector } from '../store'

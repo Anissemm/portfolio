@@ -113,11 +113,13 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
         const timer = setTimeout(() => {
             setResult(null)
         }, 3000)
+
+        return () => clearTimeout(timer)
     }, [result])
 
     return (
         <section id={slugifiedId} ref={setSectionRef} className="section contact-me-section" >
-            <Heading itemNumber={3}>Message me</Heading> 
+            <Heading itemNumber={3}>Message me</Heading>
             <motion.div className='contact-body'>
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -158,7 +160,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                             <Input
                                 label='Name'
                                 id='name'
-                                type='name'
+                                type='text'
                                 name='name'
                                 value={contactForm.values.name}
                                 onChange={contactForm.handleChange}
@@ -171,7 +173,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                             <Input
                                 label='Subject'
                                 id='subject'
-                                type='subject'
+                                type='text'
                                 name='subject'
                                 value={contactForm.values.subject}
                                 onChange={contactForm.handleChange}
@@ -185,7 +187,6 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                                 as='textarea'
                                 label='Message'
                                 id='message'
-                                type='message'
                                 name='message'
                                 value={contactForm.values.message}
                                 onChange={contactForm.handleChange}
@@ -198,7 +199,7 @@ const ContactMe: React.FC<ContactMeProps> = ({ id }) => {
                             <motion.button
                                 initial={{ opacity: 0, x: 100 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{once: true, margin: '-20px'}}
+                                viewport={{ once: true, margin: '-20px' }}
                                 transition={{ duration: 0.5 }}
                                 className='submit-button'
                                 type='submit'

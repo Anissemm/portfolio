@@ -4,6 +4,8 @@ import KsorstnImgSm from '../../assets/ksorstn-sm.jpg'
 import KsorstnImgLg from '../../assets/ksorstn-lg.jpg'
 import GoogleDocCloneSm from '../../assets/inifinityEditor-sm.png'
 import GoogleDocCloneLg from '../../assets/inifinityEditor-lg.png'
+import ShakySm from '../../assets/shaky-sm.png'
+import ShakyLg from '../../assets/shaky-lg.png'
 import './Work.scss'
 import useCurrentSection from "../../hooks/useCurrentSection"
 import slugify from "slugify"
@@ -13,7 +15,6 @@ import { getCurrentBreakpoint } from "../../store/reducers/uiSlice"
 import Heading from "../Heading"
 import isTouchDevice from 'is-touch-device'
 import { ReactComponent as ExternalLinkIcon } from '../../assets/svg/external-link-icon.svg'
-import { ReactComponent as Cross } from '../../assets/svg/cross.svg'
 
 interface WorkProps {
     id: string
@@ -54,7 +55,7 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     image={largeScreen ? KsorstnImgLg : KsorstnImgSm}
                     content='Built a custom responsive WordPress theme from scratch for a multi-page blog website.' />
                 <Project
-                    id="google-doc-1"
+                    id="google-doc"
                     initial={{ opacity: 0, y: 100 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
@@ -66,6 +67,20 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     codeLink='https://github.com/Anissemm/portfolio'
                     techStack={['NextJS', 'Firebase', 'QuillJs', 'TailwindCss']}
                     content='Mobile-friendly WYSIWYG editor with cloud autosave. Allows to create, edit, print, and download documents in Docx format.' />
+                <Project
+                    id="shaky"
+                    initial={{ opacity: 0, y: 100 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true, margin: '-20px' }}
+                    title='Online Supplements Shop - "Shaky"'
+                    largeScreen={largeScreen}
+                    image={largeScreen ? ShakyLg : ShakySm}
+                    link='https://shaky-shop-preview.anisdimassi.site/'
+                    techStack={['Typescript', 'NextJS', 'Redux', 'TailwindCss', 'MongoDB']}
+                    content={`A SEO-friendly e-commerce website that I'm currently
+                    working on. Designed and developed with a conscious
+                    effort to avoid using frontend frameworks like Bootstrap. For the moment, working on migrating the project to NextJs framework.`} />
             </div>
         </section>
     )
@@ -177,7 +192,7 @@ const Project = motion(forwardRef<HTMLDivElement, ProjectCardProps>((
                                             {codeLink && <span className="link-text">
                                                 <a href={codeLink} target='_blank' rel='noreferrer nofollow noopener'>
                                                     <span>
-                                                    Code &lt;\&gt;
+                                                        Code &lt;\&gt;
                                                     </span>
                                                 </a>
                                             </span>}

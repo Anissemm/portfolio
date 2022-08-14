@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react"
+import React from "react"
 import { motion } from 'framer-motion'
 import './Welcome.scss'
 import { ReactComponent as LinkedinIcon } from '../../assets/svg/linkedin.svg'
@@ -6,6 +6,7 @@ import { ReactComponent as GithubIcon } from '../../assets/svg/github.svg'
 import { ReactComponent as CodepenIcon } from '../../assets/svg/codepen.svg'
 import useCurrentSection from "../../hooks/useCurrentSection"
 import slugify from "slugify"
+import resume from '../../assets/resume-dimassi-anis.pdf'
 
 interface WelcomeHeaderProps {
     id: string,
@@ -67,6 +68,8 @@ const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ id }) => {
                         initial={{ background: 'rgb(4, 102, 200, 0.1)', scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         whileHover={{ background: 'rgb(4, 102, 200, 0.4)' }}
+                        href={resume}
+                        target='_blank'
                         transition={{
                             delay: 1,
                             transition: 1,

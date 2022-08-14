@@ -63,7 +63,7 @@ const WorkSection: React.FC<WorkProps> = ({ id }) => {
                     title='Google Doc Clone - "Infinity Editor"'
                     largeScreen={largeScreen}
                     image={largeScreen ? GoogleDocCloneLg : GoogleDocCloneSm}
-                    link='https://doc-editor-tau.vercel.app'
+                    link='https://infinityeditor.anisdimassi.site/'
                     codeLink='https://github.com/Anissemm/portfolio'
                     techStack={['NextJS', 'Firebase', 'QuillJs', 'TailwindCss']}
                     content='Mobile-friendly WYSIWYG editor with cloud autosave. Allows to create, edit, print, and download documents in Docx format.' />
